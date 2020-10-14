@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'scietecproductapi'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f7619f31e1ff4d19ac975fac54bd9a27 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_14bb7464e96b4402a76321dd7efd7bda }}
         package: ${{env.DOTNET_ROOT}}/myapp 
