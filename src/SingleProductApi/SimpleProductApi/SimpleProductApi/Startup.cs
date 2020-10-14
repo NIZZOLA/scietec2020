@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using SimpleProductApi.Data;
+using Microsoft.OpenApi.Models;
 
 namespace SimpleProductApi
 {
@@ -29,8 +30,25 @@ namespace SimpleProductApi
         {
             services.AddControllers();
 
+            services.AddSwaggerGen(c =>
+            {
+
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Api Exemplo Palestra SCIETEC 2020",
+                        Version = "v1",
+                        Description = "Exemplo de API REST criada com o ASP.NET Core 3.0 para cadastro de produtos",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Marcio R Nizzola",
+                            Url = new Uri("https://github.com/nizzola")
+                        }
+                    });
+            });
+
             services.AddDbContext<SimpleProductApiContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SimpleProductApiContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("SimpleProductApiContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +58,12 @@ namespace SimpleProductApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Ativando middlewares para uso do Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cadastro de Produtos V1");
+            });
 
             app.UseHttpsRedirection();
 
